@@ -1,16 +1,22 @@
 import express from "express";
 import healthRoutes from "./routes/health.routes.js";
+import serviceRoutes from "./routes/service.routes.js";
 import { requestLogger } from "./middlewares/request-logger.middleware.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 import { notFoundHandler } from "./middlewares/not-found.middleware.js";
 
 const app = express();
 
+app.use(express.json()); //json body parsing
+//HTTP requests commonly send JSON data. Express needs to parse that JSON before our middleware and controllers can access it through req.body
+
 // Register request logging middleware.
 app.use(requestLogger);
 
 // Register application routes.
 app.use("/api/health", healthRoutes); //app.use() mounts the router at the specified base path. The router handles /, but Express combines it with the mounting path.
+
+app.use("/api/services", serviceRoutes);
 
 app.use(notFoundHandler);
 
