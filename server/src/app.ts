@@ -1,6 +1,7 @@
 import express from "express";
 import healthRoutes from "./routes/health.routes.js";
 import serviceRoutes from "./routes/service.routes.js";
+import authRoutes from "./routes/auth.routes.js";
 import { requestLogger } from "./middlewares/request-logger.middleware.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 import { notFoundHandler } from "./middlewares/not-found.middleware.js";
@@ -17,6 +18,8 @@ app.use(requestLogger);
 app.use("/api/health", healthRoutes); //app.use() mounts the router at the specified base path. The router handles /, but Express combines it with the mounting path.
 
 app.use("/api/services", serviceRoutes);
+
+app.use("/api/auth", authRoutes);
 
 app.use(notFoundHandler);
 
