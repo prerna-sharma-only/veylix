@@ -1,7 +1,9 @@
 import { Router } from "express";
-import { createService } from "../controllers/service.controller.js";
+import { createService, getServices } from "../controllers/service.controller.js";
 import { validate } from "../middlewares/validate.middleware.js";
 import { createServiceSchema } from "../validators/service.validator.js";
+import { authenticate } from "../middlewares/auth.middleware.js";
+
 
 //Router: Creates a modular Express router.
 // createService: Controller that will handle valid service creation requests.
@@ -12,8 +14,15 @@ const router = Router();
 
 router.post(
   "/",
+  authenticate,
   validate(createServiceSchema),
   createService
 );
 
+router.get("/", authenticate, getServices);
+
 export default router;
+
+// authenticate checks whether the user has a valid token.
+// validate checks whether the request body is valid.
+// createService handles the request.
